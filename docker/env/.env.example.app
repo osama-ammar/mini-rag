@@ -38,3 +38,4 @@ VECTOR_DB_PGVEC_INDEX_THRESHOLD = 100
 # ========================= Template Config =========================
 PRIMARY_LANG = "en"
 DEFAULT_LANG = "en"
+OPEN_BROWSER=1

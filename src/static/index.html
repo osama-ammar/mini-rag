@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mini-RAG Dashboard</title>
+  <style>
+    :root {
+      --bg: #07111f;
+      --panel: #111c2f;
+      --panel-2: #15253d;
+      --border: #233652;
+      --text: #eef4ff;
+      --muted: #8fa7c8;
+      --accent: #4f8cff;
+      --accent-2: #69d2ff;
+      --success: #2fd18b;
+      --danger: #ff6b6b;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(135deg, var(--bg), #0f1b2d);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    .app-shell {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .topbar {
+      background: rgba(17, 28, 47, 0.95);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 20px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      margin-bottom: 20px;
+    }
+
+    .topbar h1 { margin: 0; font-size: 28px; font-weight: 700; }
+    .topbar p { margin: 4px 0 0; color: var(--muted); }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 300px 1fr 320px;
+      gap: 20px;
+    }
+
+    .panel {
+      background: rgba(17, 28, 47, 0.95);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    .panel h3 { margin: 0 0 12px; font-size: 16px; font-weight: 700; }
+
+    .panel-block {
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .panel-block:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+
+    .project-create, .project-item, .doc-item, .source-item, .message {
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 12px;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+
+    .project-create {
+      display: flex;
+      gap: 8px;
+      flex-direction: column;
+    }
+
+    .project-item.active {
+      border-color: var(--accent);
+      box-shadow: inset 0 0 0 1px rgba(79, 140, 255, 0.25);
+    }
+
+    .project-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .project-item strong, .doc-item strong, .source-item strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .pill {
+      display: inline-block;
+      background: rgba(79, 140, 255, 0.16);
+      color: var(--accent-2);
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      margin-top: 6px;
+    }
+
+    .muted { color: var(--muted); font-size: 12px; }
+
+    input, button, textarea, input[type="file"] {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      background: #0d1727;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    button {
+      cursor: pointer;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      color: white;
+      border: none;
+      font-weight: 600;
+    }
+
+    .ghost-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 7px 10px;
+      font-size: 12px;
+      width: auto;
+    }
+
+    .danger-btn {
+      background: rgba(255, 107, 107, 0.16);
+      color: var(--danger);
+      border: 1px solid rgba(255, 107, 107, 0.25);
+      width: auto;
+      padding: 7px 10px;
+      font-size: 12px;
+    }
+
+    .main-panel {
+      display: flex;
+      flex-direction: column;
+      min-height: 70vh;
+    }
+
+    .conversation-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .conversation-header .controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .status-pill {
+      background: rgba(47, 209, 139, 0.18);
+      color: var(--success);
+      border: 1px solid rgba(47, 209, 139, 0.25);
+      padding: 8px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .messages {
+      flex: 1;
+      overflow-y: auto;
+      background: #0d1727;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+
+    .message.user {
+      background: rgba(79, 140, 255, 0.18);
+      border-color: rgba(79, 140, 255, 0.25);
+    }
+
+    .message.assistant {
+      background: rgba(47, 209, 139, 0.12);
+      border-color: rgba(47, 209, 139, 0.25);
+    }
+
+    .composer { display: flex; flex-direction: column; gap: 10px; }
+    .composer textarea { min-height: 90px; resize: vertical; }
+
+    .action-row { display: flex; flex-direction: column; gap: 8px; }
+
+    .small-btn { padding: 9px 12px; font-size: 13px; }
+
+    pre {
+      white-space: pre-wrap;
+      font-size: 12px;
+      color: var(--muted);
+      background: #0d1727;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px;
+      margin: 0;
+    }
+
+    @media (max-width: 1100px) {
+      .dashboard-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <h1>Mini-RAG Dashboard</h1>
+        <p>Create projects, upload files, process them, and chat with your knowledge base.</p>
+      </div>
+    </header>
+
+    <div class="dashboard-grid">
+      <aside class="panel">
+        <div class="panel-block">
+          <h3>Create Project</h3>
+          <div class="project-create">
+            <input id="projectNameInput" placeholder="Project name" />
+            <button id="createProjectBtn" class="small-btn">Create Project</button>
+          </div>
+        </div>
+
+        <div class="panel-block">
+          <h3>Projects</h3>
+          <div id="projectList"></div>
+        </div>
+
+        <div class="panel-block">
+          <h3>Documents</h3>
+          <div id="documentList">
+            <div class="doc-item">
+              <strong>No project selected</strong>
+              <div class="muted">Create or open a project first.</div>
+            </div>
+          </div>
+          <div class="action-row" style="margin-top: 10px;">
+            <label class="doc-item" style="cursor:pointer;">
+              <strong>Select files</strong>
+              <input id="fileInput" type="file" multiple />
+            </label>
+            <button id="uploadBtn" class="small-btn">Upload to Active Project</button>
+          </div>
+        </div>
+      </aside>
+
+      <main class="panel main-panel">
+        <div class="conversation-header">
+          <div>
+            <h3>Chat Window</h3>
+            <p>Ask questions about the selected project.</p>
+          </div>
+          <div class="controls">
+            <button id="clearChatBtn" class="ghost-btn" type="button">Clear chat</button>
+            <div id="statusPill" class="status-pill">Ready</div>
+          </div>
+        </div>
+
+        <div id="messages" class="messages">
+          <div class="message assistant">
+            <strong>Assistant</strong>
+            <div>Welcome! Create a project, upload documents, process them, index the project, and then ask questions.</div>
+          </div>
+        </div>
+
+        <div class="action-row" style="margin-bottom: 10px;">
+          <button id="processBtn" class="small-btn">Process Documents</button>
+          <button id="indexBtn" class="small-btn">Index Project</button>
+        </div>
+
+        <form id="questionForm" class="composer">
+          <textarea id="questionInput" placeholder="Ask a question about your documents..."></textarea>
+          <button type="submit">Ask Question</button>
+        </form>
+      </main>
+
+      <aside class="panel">
+        <div class="panel-block">
+          <h3>Retrieved Sources</h3>
+          <div id="sourcesList">
+            <div class="source-item">
+              <strong>No sources yet</strong>
+              <div class="muted">Search results will appear here.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-block">
+          <h3>Recent Activity</h3>
+          <pre id="activityLog">No activity yet.</pre>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = "mini-rag-projects-v1";
+    const state = {
+      projects: [],
+      activeProjectId: null,
+      sources: []
+    };
+
+    const projectNameInput = document.getElementById("projectNameInput");
+    const projectList = document.getElementById("projectList");
+    const documentList = document.getElementById("documentList");
+    const sourcesList = document.getElementById("sourcesList");
+    const messagesBox = document.getElementById("messages");
+    const activityLog = document.getElementById("activityLog");
+    const statusPill = document.getElementById("statusPill");
+    const fileInput = document.getElementById("fileInput");
+
+    function loadState() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          state.projects = parsed.projects || [];
+          state.activeProjectId = parsed.activeProjectId || null;
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    function nextProjectId() {
+      const key = "mini-rag-next-project-id";
+      let next = Number(localStorage.getItem(key) || "1000");
+      if (next > 2147483640) next = 1000;
+      localStorage.setItem(key, String(next + 1));
+      return next;
+    }
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        projects: state.projects,
+        activeProjectId: state.activeProjectId
+      }));
+    }
+
+    function getActiveProject() {
+      return state.projects.find(p => p.id === state.activeProjectId) || null;
+    }
+
+    function setActiveProject(projectId) {
+      state.activeProjectId = projectId;
+      saveState();
+      renderProjects();
+      renderDocuments();
+    }
+
+    function setStatus(text) {
+      statusPill.textContent = text;
+    }
+
+    function log(message) {
+      const now = new Date().toLocaleTimeString();
+      activityLog.textContent = `[${now}] ${message}\n` + activityLog.textContent;
+    }
+
+    function addMessage(role, text) {
+      const message = document.createElement("div");
+      message.className = `message ${role}`;
+      message.innerHTML = `
+        <strong>${role === "user" ? "You" : "Assistant"}</strong>
+        <div>${text}</div>
+      `;
+      messagesBox.appendChild(message);
+      messagesBox.scrollTop = messagesBox.scrollHeight;
+    }
+
+    function clearChat() {
+      messagesBox.innerHTML = `
+        <div class="message assistant">
+          <strong>Assistant</strong>
+          <div>Conversation cleared. Start a new question when you're ready.</div>
+        </div>
+      `;
+      state.sources = [];
+      renderSources();
+      setStatus("Ready");
+    }
+
+    function renderProjects() {
+      if (state.projects.length === 0) {
+        projectList.innerHTML = `
+          <div class="project-item">
+            <strong>No projects yet</strong>
+            <div class="muted">Create one to get started.</div>
+          </div>
+        `;
+        return;
+      }
+
+      projectList.innerHTML = state.projects.map(project => `
+        <div class="project-item ${project.id === state.activeProjectId ? "active" : ""}">
+          <div class="project-item-header">
+            <div style="cursor:pointer;" onclick="window.selectProject(${project.id})">
+              <strong>${project.name}</strong>
+              <div class="muted">${project.documents?.length || 0} file(s)</div>
+            </div>
+            <button class="danger-btn" onclick="window.deleteProject(${project.id})">Delete</button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    window.selectProject = function(id) {
+      setActiveProject(Number(id));
+      log(`Selected project ${id}`);
+    };
+
+    window.deleteProject = function(id) {
+      state.projects = state.projects.filter(p => p.id !== Number(id));
+      if (state.activeProjectId === Number(id)) {
+        state.activeProjectId = state.projects[0]?.id || null;
+      }
+      saveState();
+      renderProjects();
+      renderDocuments();
+      log(`Deleted project ${id}`);
+    };
+
+    function renderDocuments() {
+      const project = getActiveProject();
+      if (!project) {
+        documentList.innerHTML = `
+          <div class="doc-item">
+            <strong>No project selected</strong>
+            <div class="muted">Create or open a project first.</div>
+          </div>
+        `;
+        return;
+      }
+
+      if (!project.documents || project.documents.length === 0) {
+        documentList.innerHTML = `
+          <div class="doc-item">
+            <strong>${project.name}</strong>
+            <div class="muted">No files yet. Upload one or more to start.</div>
+          </div>
+        `;
+        return;
+      }
+
+      documentList.innerHTML = project.documents.map(doc => `
+        <div class="doc-item">
+          <div class="project-item-header">
+            <div>
+              <strong>${doc.name}</strong>
+              <div class="muted">Uploaded: ${doc.uploadedAt || "now"}</div>
+            </div>
+            <button class="danger-btn" onclick="window.deleteDocument(${project.id}, '${doc.name}')">Delete</button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    window.deleteDocument = function(projectId, fileName) {
+      const project = state.projects.find(p => p.id === Number(projectId));
+      if (!project) return;
+      project.documents = (project.documents || []).filter(doc => doc.name !== fileName);
+      saveState();
+      renderDocuments();
+      log(`Removed ${fileName} from project ${project.name}`);
+    };
+
+    function renderSources() {
+      if (!state.sources || state.sources.length === 0) {
+        sourcesList.innerHTML = `
+          <div class="source-item">
+            <strong>No sources yet</strong>
+            <div class="muted">Search results will appear here.</div>
+          </div>
+        `;
+        return;
+      }
+
+      sourcesList.innerHTML = state.sources.map((item, index) => {
+        const text = item.chunk_text || item.text || item.page_content || "";
+        const preview = text.length > 180 ? text.slice(0, 180) + "..." : text;
+        const score = item.score ?? item.distance ?? "";
+        return `
+          <div class="source-item">
+            <strong>Source ${index + 1}</strong>
+            <div class="muted">${preview}</div>
+            ${score !== "" ? `<div class="pill">Score: ${score}</div>` : ""}
+          </div>
+        `;
+      }).join("");
+    }
+
+    document.getElementById("clearChatBtn").addEventListener("click", clearChat);
+
+    document.getElementById("createProjectBtn").addEventListener("click", () => {
+      const name = projectNameInput.value.trim();
+      if (!name) {
+        log("Please enter a project name.");
+        return;
+      }
+
+      const projectId = nextProjectId();
+      const project = {
+        id: projectId,
+        name,
+        documents: []
+      };
+
+      state.projects.unshift(project);
+      setActiveProject(projectId);
+      projectNameInput.value = "";
+      log(`Created project ${name}`);
+      addMessage("assistant", `Created project "${name}".`);
+    });
+
+    document.getElementById("uploadBtn").addEventListener("click", async () => {
+      const project = getActiveProject();
+      if (!project) {
+        log("Create or select a project first.");
+        setStatus("No project selected");
+        return;
+      }
+
+      const files = Array.from(fileInput.files);
+      if (files.length === 0) {
+        log("Please choose one or more files first.");
+        setStatus("No file selected");
+        return;
+      }
+
+      setStatus("Uploading...");
+      let uploadedCount = 0;
+
+      for (const file of files) {
+        try {
+          const formData = new FormData();
+          formData.append("file", file);
+
+          const res = await fetch(`/api/v1/data/upload/${project.id}`, {
+            method: "POST",
+            body: formData
+          });
+
+          const data = await res.json();
+          if (!res.ok) {
+            log(`Upload failed for ${file.name}: ${JSON.stringify(data)}`);
+            continue;
+          }
+
+          project.documents.unshift({
+            name: file.name,
+            fileId: data.file_id,
+            uploadedAt: new Date().toLocaleString()
+          });
+
+          uploadedCount += 1;
+          log(`Uploaded ${file.name} to ${project.name}`);
+        } catch (err) {
+          log(`Upload error for ${file.name}: ${err}`);
+        }
+      }
+
+      saveState();
+      renderDocuments();
+      fileInput.value = "";
+      if (uploadedCount > 0) {
+        setStatus("Upload complete");
+        addMessage("assistant", `Uploaded ${uploadedCount} file(s) to "${project.name}".`);
+      } else {
+        setStatus("Upload failed");
+      }
+    });
+
+    document.getElementById("processBtn").addEventListener("click", async () => {
+      const project = getActiveProject();
+      if (!project) {
+        log("Select a project first.");
+        return;
+      }
+
+      setStatus("Processing...");
+      try {
+        const body = {
+          chunk_size: 100,
+          overlap_size: 20,
+          do_reset: 0
+        };
+
+        const res = await fetch(`/api/v1/data/process/${project.id}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body)
+        });
+
+        const data = await res.json();
+        if (!res.ok) {
+          log(`Process failed: ${JSON.stringify(data)}`);
+          setStatus("Process failed");
+          return;
+        }
+
+        log(`Processed ${data.processed_files || 0} file(s)`);
+        setStatus("Process complete");
+        addMessage("assistant", `Processed ${data.processed_files || 0} file(s) and inserted ${data.inserted_chunks || 0} chunks.`);
+      } catch (err) {
+        log(`Process error: ${err}`);
+        setStatus("Process error");
+      }
+    });
+
+    document.getElementById("indexBtn").addEventListener("click", async () => {
+      const project = getActiveProject();
+      if (!project) {
+        log("Select a project first.");
+        return;
+      }
+
+      setStatus("Indexing...");
+      try {
+        const res = await fetch(`/api/v1/nlp/index/push/${project.id}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ do_reset: 0 })
+        });
+
+        const data = await res.json();
+        if (!res.ok) {
+          log(`Index failed: ${JSON.stringify(data)}`);
+          setStatus("Index failed");
+          return;
+        }
+
+        log(`Indexed ${data.inserted_items_count || 0} items`);
+        setStatus("Index complete");
+        addMessage("assistant", `Indexed ${data.inserted_items_count || 0} items successfully.`);
+      } catch (err) {
+        log(`Index error: ${err}`);
+        setStatus("Index error");
+      }
+    });
+
+    document.getElementById("questionForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const project = getActiveProject();
+      if (!project) {
+        log("Create or select a project first.");
+        return;
+      }
+
+      const input = document.getElementById("questionInput");
+      const text = input.value.trim();
+      if (!text) return;
+
+      addMessage("user", text);
+      input.value = "";
+      setStatus("Searching...");
+      try {
+        const searchRes = await fetch(`/api/v1/nlp/index/search/${project.id}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text, limit: 5 })
+        });
+
+        const searchData = await searchRes.json();
+        if (searchRes.ok && searchData.results) {
+          state.sources = searchData.results;
+          renderSources();
+        } else {
+          state.sources = [];
+          renderSources();
+        }
+
+        const answerRes = await fetch(`/api/v1/nlp/index/answer/${project.id}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text, limit: 5 })
+        });
+
+        const answerData = await answerRes.json();
+        if (!answerRes.ok) {
+          addMessage("assistant", "Sorry, I could not generate an answer.");
+          setStatus("Answer failed");
+          return;
+        }
+
+        addMessage("assistant", answerData.answer || "No answer returned.");
+        setStatus("Ready");
+      } catch (err) {
+        addMessage("assistant", "Sorry, something went wrong.");
+        setStatus("Request error");
+      }
+    });
+
+    loadState();
+    renderProjects();
+    renderDocuments();
+    renderSources();
+  </script>
+</body>
+</html>

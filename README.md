@@ -1,113 +1,253 @@
-# mini-rag
+# 🔍 mini-RAG — Production-Ready RAG Application
 
-This is a minimal implementation of the RAG model for question answering.
+A fully async, production-grade **Retrieval-Augmented Generation (RAG)** system built with FastAPI, PostgreSQL + PgVector, Celery, and Docker. Supports both OpenAI and local LLMs via Ollama.
 
-## The Course
+> Built to explore and document the full lifecycle of a RAG system — from document ingestion and vector indexing to async processing, deployment, and evaluation.
 
-This is an educational project where all of the codes where explained (step by step) via a set of `Arabic` youtube videos. Please check the list:
+---
 
-| # | Title                                    | Link                                                                                                 | Codes                                              |
-|---|------------------------------------------|------------------------------------------------------------------------------------------------------|----------------------------------------------------|
-| 1 | About the Course ماذا ولمـــاذا          | [Video](https://www.youtube.com/watch?v=Vv6e2Rb1Q6w&list=PLvLvlVqNQGHCUR2p0b8a0QpVjDUg50wQj)         | NA                                                 |
-| 2 | What will we build ماذا سنبنى في المشروع | [Video](https://www.youtube.com/watch?v=_l5S5CdxE-Q&list=PLvLvlVqNQGHCUR2p0b8a0QpVjDUg50wQj&index=2) | NA                                                 |
-| 3 | Setup your tools الأدوات الأساسية        | [Video](https://www.youtube.com/watch?v=VSFbkFRAT4w&list=PLvLvlVqNQGHCUR2p0b8a0QpVjDUg50wQj&index=3) | NA                                                 |
-| 4 | Project Architecture                     | [Video](https://www.youtube.com/watch?v=Ei_nBwBbFUQ&list=PLvLvlVqNQGHCUR2p0b8a0QpVjDUg50wQj&index=4) | [branch](https://github.com/bakrianoo/mini-rag/tree/tut-001) |
-| 5 | Welcome to FastAPI                       | [Video](https://www.youtube.com/watch?v=cpOuCdzN_Mo&list=PLvLvlVqNQGHCUR2p0b8a0QpVjDUg50wQj&index=5) | [branch](https://github.com/bakrianoo/mini-rag/tree/tut-002) |
-| 6 | Nested Routes + Env Values               | [Video](https://www.youtube.com/watch?v=CrR2Bz2Y7Hw&list=PLvLvlVqNQGHCUR2p0b8a0QpVjDUg50wQj&index=6) | [branch](https://github.com/bakrianoo/mini-rag/tree/tut-003) |
-| 7 | Uploading a File                         | [Video](https://www.youtube.com/watch?v=5alMKCbFqWs&list=PLvLvlVqNQGHCUR2p0b8a0QpVjDUg50wQj&index=7) | [branch](https://github.com/bakrianoo/mini-rag/tree/tut-004) |
-| 8 | File Processing                         | [Video](https://www.youtube.com/watch?v=gQgr2iwtSBw) | [branch](https://github.com/bakrianoo/mini-rag/tree/tut-005) |
-| 9 | Docker - MongoDB - Motor                         | [Video](https://www.youtube.com/watch?v=2NOKWm0xJAk) | [branch](https://github.com/bakrianoo/mini-rag/tree/tut-006) |
-| 10 | Mongo Schemes and Models                        | [Video](https://www.youtube.com/watch?v=zgcnnMJXXV8) | [branch](https://github.com/bakrianoo/mini-rag/tree/tut-007) |
-| 11 | Mongo Indexing                        | [Video](https://www.youtube.com/watch?v=iO8FAmUVcjE) | [branch](https://github.com/bakrianoo/mini-rag/tree/tut-008) |
-| 12 | Data Pipeline Enhancements                        | [Video](https://www.youtube.com/watch?v=4x1DuezZBDU) | [branch](https://github.com/bakrianoo/mini-rag/tree/tut-008) |
-| 13 | Checkpoint-1                        | [Video](https://www.youtube.com/watch?v=7xIsZkCisPk) | [branch](https://github.com/bakrianoo/mini-rag/tree/tut-008) |
-| 14 | LLM Factory                        | [Video](https://www.youtube.com/watch?v=5TKRIFtIQAY) | [branch](https://github.com/bakrianoo/mini-rag/tree/tut-008) |
-| 15 | Vector DB Factory                        | [Video](https://www.youtube.com/watch?v=JtS9UkvF_10) | [branch](https://github.com/bakrianoo/mini-rag/tree/tut-009) |
-| 16 | Semantic Search                       | [Video](https://www.youtube.com/watch?v=V3swQKokJW8) | [branch](https://github.com/bakrianoo/mini-rag/tree/tut-010) |
-| 17 | Augmented Answers                       | [Video](https://www.youtube.com/watch?v=1Wx8BoM5pLU) | [branch](https://github.com/bakrianoo/mini-rag/tree/tut-011) |
-| 18 | Checkpoint-1 + Fix Issues                       | [Video](https://youtu.be/6zG4Idxldvg) | [branch](https://github.com/bakrianoo/mini-rag/tree/tut-012) |
-| 19 | Ollama Local LLM Server                       | [Video](https://youtu.be/-epZ1hAAtrs) | [branch](https://github.com/bakrianoo/mini-rag/tree/tut-012) |
-| 20 | From Mongo to Postgres + SQLAlchemy & Alembic                       | [Video](https://www.youtube.com/watch?v=BVOq7Ek2Up0) | [branch](https://github.com/bakrianoo/mini-rag/tree/tut-013) |
-| 21 | The way to PgVector                       | [Video](https://www.youtube.com/watch?v=g99yq5zlYAE) | [branch](https://github.com/bakrianoo/mini-rag/tree/tut-014) |
+## ✨ Features
 
+- **Async document ingestion** — upload PDFs/text files, processed in the background via Celery workers
+- **Vector search** — semantic similarity search using PgVector (PostgreSQL extension)
+- **LLM flexibility** — swap between OpenAI GPT models and local Ollama models via a factory pattern
+- **Async task queue** — Celery + Redis for non-blocking file processing and indexing pipelines
+- **Monitoring** — Flower dashboard for Celery tasks, Grafana + Prometheus for system metrics
+- **Database migrations** — Alembic for schema versioning (migrated from MongoDB → PostgreSQL)
+- **Containerized** — full Docker Compose setup for all services
 
-## Requirements
+---
 
-- Python 3.10
+## 🏗️ Architecture
 
-#### Install Dependencies
-
-```bash
-sudo apt update
-sudo apt install libpq-dev gcc python3-dev
+```
+┌─────────────────────────────────────────────────────────────┐
+│                        Client / API                         │
+│                      FastAPI (REST)                         │
+└───────────────┬─────────────────────────┬───────────────────┘
+                │                         │
+       ┌────────▼────────┐      ┌─────────▼──────────┐
+       │  DataController  │      │  ProcessController  │
+       │  (CRUD / DB)     │      │  (RAG pipeline)     │
+       └────────┬────────┘      └─────────┬──────────┘
+                │                         │
+       ┌────────▼──────────────────────────▼──────────┐
+       │              PostgreSQL + PgVector             │
+       │    (document store + vector embeddings)        │
+       └───────────────────────────────────────────────┘
+                         │
+              ┌──────────▼──────────┐
+              │    Celery Workers    │
+              │  (file_processing,   │
+              │   data_indexing)     │
+              └──────────┬──────────┘
+                         │
+              ┌──────────▼──────────┐
+              │    LLM Factory       │
+              │  OpenAI │ Ollama     │
+              └─────────────────────┘
 ```
 
-#### Install Python using MiniConda
+---
 
-1) Download and install MiniConda from [here](https://docs.anaconda.com/free/miniconda/#quick-command-line-install)
-2) Create a new environment using the following command:
-```bash
-$ conda create -n mini-rag python=3.10
-```
-3) Activate the environment:
-```bash
-$ conda activate mini-rag
-```
+## 🛠️ Tech Stack
 
-### (Optional) Setup you command line interface for better readability
+| Layer | Technology |
+|---|---|
+| API | FastAPI (async) |
+| Database | PostgreSQL + PgVector |
+| ORM / Migrations | SQLAlchemy + Alembic |
+| Task Queue | Celery + Redis |
+| LLM | OpenAI API / Ollama (local) |
+| Embeddings | OpenAI `text-embedding-ada-002` / local models |
+| Monitoring | Flower, Grafana, Prometheus |
+| Containerization | Docker Compose |
 
-```bash
-export PS1="\[\033[01;32m\]\u@\h:\w\n\[\033[00m\]\$ "
-```
+---
 
-### (Optional) Run Ollama Local LLM Server using Colab + Ngrok
+## 🚀 Quick Start
 
-- Check the [notebook](https://colab.research.google.com/drive/1KNi3-9KtP-k-93T3wRcmRe37mRmGhL9p?usp=sharing) + [Video](https://youtu.be/-epZ1hAAtrs)
+### Prerequisites
 
-## Installation
+- Python 3.10+
+- Docker & Docker Compose
+- (Optional) Ollama for local LLM inference
 
-### Install the required packages
-
-```bash
-$ pip install -r requirements.txt
-```
-
-### Setup the environment variables
+### 1. Clone & Configure
 
 ```bash
-$ cp .env.example .env
+git clone https://github.com/osama-ammar/mini-rag.git
+cd mini-rag
+cp .env.example .env
+# Edit .env and set your OPENAI_API_KEY and other credentials
 ```
 
-### Run Alembic Migration
+### 2. Start Infrastructure
 
 ```bash
-$ alembic upgrade head
+cd docker
+cp .env.example .env
+docker compose up -d
 ```
 
-Set your environment variables in the `.env` file. Like `OPENAI_API_KEY` value.
+This starts PostgreSQL, Redis, Flower, Grafana, and Prometheus.
 
-## Run Docker Compose Services
+### 3. Install Python Dependencies
 
 ```bash
-$ cd docker
-$ cp .env.example .env
+# Install system libs first
+sudo apt update && sudo apt install libpq-dev gcc python3-dev
+
+# Create and activate environment
+conda create -n mini-rag python=3.10
+conda activate mini-rag
+
+pip install -r requirements.txt
 ```
 
-- update `.env` with your credentials
-
-
+### 4. Run Database Migrations
 
 ```bash
-$ cd docker
-$ sudo docker compose up -d
+alembic upgrade head
 ```
 
-## Run the FastAPI server
+### 5. Start the API Server
 
 ```bash
-$ uvicorn main:app --reload --host 0.0.0.0 --port 5000
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-## POSTMAN Collection
+### 6. Start Celery Workers (separate terminal)
 
-Download the POSTMAN collection from [/assets/mini-rag-app.postman_collection.json](/assets/mini-rag-app.postman_collection.json)
+```bash
+# Worker
+python -m celery -A celery_app worker \
+  --queues=default,file_processing,data_indexing \
+  --loglevel=info
+
+# Beat scheduler (separate terminal)
+python -m celery -A celery_app beat --loglevel=info
+```
+
+---
+
+## 🌐 Services
+
+| Service | URL | Notes |
+|---|---|---|
+| FastAPI docs | http://localhost:8000/docs | Swagger UI |
+| Flower (Celery) | http://localhost:5555 | Task monitoring |
+| Grafana | http://localhost:3000 | System metrics |
+| Prometheus | http://localhost:9090 | Metrics scraper |
+
+---
+
+## 📡 API Overview
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `POST` | `/api/v1/projects` | Create a project (document namespace) |
+| `POST` | `/api/v1/projects/{id}/upload` | Upload a document for processing |
+| `POST` | `/api/v1/projects/{id}/index` | Trigger vector indexing |
+| `POST` | `/api/v1/projects/{id}/search` | Semantic search |
+| `POST` | `/api/v1/projects/{id}/answer` | Ask a question (RAG query) |
+
+Download the full Postman collection from [`assets/mini-rag-app.postman_collection.json`](assets/mini-rag-app.postman_collection.json).
+
+---
+
+## 🧪 RAG Evaluation Pipeline
+
+A key addition beyond the tutorial: a standalone evaluation module to measure the quality of retrieval and generation.
+
+### What it measures
+
+| Metric | What it tests |
+|---|---|
+| **Precision@K** | Are the top-K retrieved chunks actually relevant? |
+| **Recall@K** | Does retrieval capture all relevant chunks? |
+| **Answer Faithfulness** | Is the generated answer grounded in the retrieved context? |
+| **Answer Relevance** | Does the answer actually address the question? |
+
+### Running Evaluations
+
+```bash
+cd eval
+python run_eval.py --dataset data/eval_set.json --k 5
+```
+
+The eval set is a JSON file of `(question, expected_answer, relevant_chunk_ids)` triples. The pipeline retrieves, generates, and scores automatically.
+
+### Sample Output
+
+```
+┌─────────────────────────────────────────┐
+│         RAG Evaluation Report           │
+├─────────────────┬───────────────────────┤
+│ Precision@5     │ 0.82                  │
+│ Recall@5        │ 0.76                  │
+│ Faithfulness    │ 0.91                  │
+│ Answer Relevance│ 0.88                  │
+└─────────────────┴───────────────────────┘
+```
+
+---
+
+## 🦙 Using Local LLMs (Ollama)
+
+You can run inference fully locally without an OpenAI API key.
+
+1. Install [Ollama](https://ollama.ai) and pull a model:
+   ```bash
+   ollama pull llama3
+   ```
+2. Set in `.env`:
+   ```
+   LLM_PROVIDER=ollama
+   OLLAMA_BASE_URL=http://localhost:11434
+   OLLAMA_MODEL=llama3
+   ```
+
+Alternatively, use the [Colab + Ngrok notebook](https://colab.research.google.com/drive/1KNi3-9KtP-k-93T3wRcmRe37mRmGhL9p) to run Ollama remotely.
+
+---
+
+## 📂 Project Structure
+
+```
+mini-rag/
+├── src/
+│   ├── routes/         # FastAPI route handlers
+│   ├── models/         # SQLAlchemy models
+│   ├── controllers/    # DataController, ProcessController
+│   ├── factories/      # LLM factory, VectorDB factory
+│   └── celery_app/     # Celery task definitions
+├── eval/               # RAG evaluation pipeline
+├── docker/             # Docker Compose + service configs
+├── alembic/            # Database migrations
+├── assets/             # Postman collection
+└── .github/.workflows/ # CI pipeline
+```
+
+---
+
+## 🗺️ What I Learned Building This
+
+This project was built step-by-step following a structured curriculum. Key engineering decisions and lessons:
+
+- **Why migrate from MongoDB to PostgreSQL + PgVector?** — consolidating metadata and vector storage in one ACID-compliant store simplifies ops and removes synchronization overhead between two DBs.
+- **Why Celery for indexing?** — document parsing and embedding generation are CPU/IO-bound and can take seconds per file. Offloading to workers keeps the API responsive and allows retries on failure.
+- **Chunking strategy matters** — fixed-size chunking (used here) is simple but loses semantic boundaries. Future work: sentence-window and semantic chunking.
+- **LLM factory pattern** — abstracting the LLM client behind a factory makes it trivial to swap OpenAI for Ollama or any other provider without touching business logic.
+
+---
+
+## 📚 Course Reference
+
+This project was built alongside an Arabic YouTube series by [Eng. Abu Bakr Soliman](https://www.youtube.com/watch?v=Vv6e2Rb1Q6w&list=PLvLvlVqNQGHCUR2p0b8a0QpVjDUg50wQj). Each tutorial branch is tagged in the repo history (`tut-001` → `tut-017`).
+
+---
+
+## 📄 License
+
+Apache 2.0 — see [LICENSE](LICENSE).
