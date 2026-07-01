@@ -1,16 +1,7 @@
 import json
 import requests
 
-CHUNKS_PER_QUESTION=5
-process_req_body = {
-"chunk_size": 100,
-"overlap_size": 20,
-"do_reset": 0
-}
-push_req_body={
-"do_reset":1
-}
-PROJECT_ID = "1"
+from eval_config import BASE_URL, PROJECT_ID, CHUNKS_PER_QUESTION, RETRIEVE_K
 
 def load_eval_dataset(path: str) -> list:
     with open(path, 'r') as file:
@@ -23,7 +14,7 @@ def compute_recall_at_k(retrieved_ids: list, expected_ids: list) -> float:
     return len(set(retrieved_ids) & set(expected_ids)) / len(expected_ids) if expected_ids else 0.0
 
 def get_retrieved_chunk_ids(question: str, project_id: str, k: int) -> list:
-    url = f"http://localhost:8000/api/v1/nlp/index/search/{project_id}"
+    url = f"{BASE_URL}/api/v1/nlp/index/search/{project_id}"
     response = requests.post(url, json={"text": question, "limit": k})
     data = response.json()
     return [result["chunk_id"] for result in data["results"]]
@@ -45,4 +36,4 @@ def run_eval(eval_path: str, project_id: str, k: int):
     print(f"Recall@{k}:    {sum(recall_scores) / len(recall_scores):.3f}")
 
 if __name__ == "__main__":
-    run_eval("eval_data.json", project_id=PROJECT_ID, k=CHUNKS_PER_QUESTION)
+    run_eval("eval_data.json", project_id=PROJECT_ID, k=RETRIEVE_K)

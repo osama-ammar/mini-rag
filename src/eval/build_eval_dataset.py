@@ -4,19 +4,14 @@ import json
 import requests
 from datasets import load_dataset
 
-BASE_URL = "http://localhost:8000"
-PROJECT_ID = "1"
-# ho many chunks represent the answer (text)
-CHUNKS_PER_QUESTION=2
-process_req_body = {
-"chunk_size": 500,
-"overlap_size": 50,
-"do_reset": 1
-}
-push_req_body={
-"do_reset":0
-}
-MAX_CONTEXT_CHARS = 2000  # safe limit for nomic-embed-text
+from eval_config import (
+    BASE_URL,
+    PROJECT_ID,
+    CHUNKS_PER_QUESTION,
+    PROCESS_REQ_BODY,
+    PUSH_REQ_BODY,
+    MAX_CONTEXT_CHARS,
+)
 
 
 # prepare_eval_dataset.py
@@ -102,8 +97,8 @@ def build_eval_dataset(items: list) -> list:
    
 
 
-    print("Process result:", process_uploaded_documents(process_req_body))
-    print("Push result:", push_to_index(push_req_body))
+    print("Process result:", process_uploaded_documents(PROCESS_REQ_BODY))
+    print("Push result:", push_to_index(PUSH_REQ_BODY))
         
         
     for item in items:
