@@ -1,4 +1,4 @@
-# 🔍 mini-RAG — Production-Ready RAG Application
+# 🔍 Production-Ready RAG Application
 
 A fully async, production-grade **Retrieval-Augmented Generation (RAG)** system built with FastAPI, PostgreSQL + PgVector, Celery, and Docker. Supports both OpenAI and local LLMs via Ollama.
 
