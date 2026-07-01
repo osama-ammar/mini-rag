@@ -1,4 +1,10 @@
-# prepare_eval_dataset.py
+"""Build a local evaluation dataset for retrieval benchmarking.
+
+This script loads questions from the RAGCare-QA dataset, uploads each context
+into the local mini-RAG service, processes and indexes it, then records the
+chunk IDs returned for each context so they can be used as expected retrieval
+results for later evaluation.
+"""
 
 import json
 import requests

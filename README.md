@@ -158,7 +158,7 @@ Download the full Postman collection from [`assets/mini-rag-app.postman_collecti
 
 ## 🧪 RAG Evaluation Pipeline
 
-A key addition beyond the tutorial: a standalone evaluation module to measure the quality of retrieval and generation.
+A standalone evaluation module is included to measure the quality of retrieval and generation against a local mini-RAG deployment.
 
 ### What it measures
 
@@ -167,16 +167,29 @@ A key addition beyond the tutorial: a standalone evaluation module to measure th
 | **Precision@K** | Are the top-K retrieved chunks actually relevant? |
 | **Recall@K** | Does retrieval capture all relevant chunks? |
 | **Answer Faithfulness** | Is the generated answer grounded in the retrieved context? |
-| **Answer Relevance** | Does the answer actually address the question? |
+| **Answer Correctness** | Does the answer match the expected answer for the question? |
 
-### Running Evaluations
+### Evaluation scripts
+
+The main scripts live in [src/eval](src/eval) and share settings from [src/eval/eval_config.py](src/eval/eval_config.py):
+
+- [src/eval/build_eval_dataset.py](src/eval/build_eval_dataset.py) builds an evaluation dataset by uploading context, processing it, and recording the chunk IDs returned by retrieval.
+- [src/eval/eval_retrieval.py](src/eval/eval_retrieval.py) scores retrieval quality with Precision@K and Recall@K using the saved evaluation dataset.
+- [src/eval/faithfullness.py](src/eval/faithfullness.py) asks an Ollama-based judge to score whether the generated answer is supported by the retrieved context.
+- [src/eval/correctness.py](src/eval/correctness.py) asks the same judge to score whether the generated answer matches the expected answer.
+
+### Running evaluations
+
+From the repository root:
 
 ```bash
-cd eval
-python run_eval.py --dataset data/eval_set.json --k 5
+python src/eval/build_eval_dataset.py
+python src/eval/eval_retrieval.py
+python src/eval/faithfullness.py
+python src/eval/correctness.py
 ```
 
-The eval set is a JSON file of `(question, expected_answer, relevant_chunk_ids)` triples. The pipeline retrieves, generates, and scores automatically.
+The evaluation data is stored in [src/eval/eval_data.json](src/eval/eval_data.json). The pipeline retrieves, generates, and scores automatically using the shared config values in [src/eval/eval_config.py](src/eval/eval_config.py).
 
 ### Sample Output
 

@@ -1,16 +1,13 @@
-"""Evaluate answer faithfulness using an LLM judge.
+"""Evaluate answer correctness against expected answers.
 
-This script runs the generated answers from the local RAG pipeline against an
-Ollama-based judge that scores how well the answer is supported by the
-retrieved context.
+This script sends each generated answer and the expected answer to an Ollama
+judge to estimate whether the response is correct for the given question.
 """
 
 import json
 import requests
 from datasets import load_dataset
-
 from eval_config import BASE_URL, PROJECT_ID, CHUNKS_PER_QUESTION, OLLAMA_HOST
-
 import re
 
 def call_ollama_judge(prompt: str) -> dict:
@@ -32,32 +29,30 @@ def call_ollama_judge(prompt: str) -> dict:
         # fallback: extract score from prose response
         match = re.search(r'(\d+\.?\d*)', text)
         score = float(match.group(1)) if match else 0.0
-        # normalize if score > 1 (e.g. "0.5 out of 1" vs "50 out of 100")
-        if score > 1:
-            score = score / 100
-        return {"faithfulness_score": score, "reason": "extracted from prose"}
+        return {"correctness_score": score, "reason": "extracted from prose"}
+    
+    
 def load_eval_dataset(path: str) -> list:
     with open(path, 'r') as file:
         return json.load(file)
 
-def build_faithfulness_prompt(context: str, answer: str) -> str:
+def build_correctness_prompt(question: str, pipeline_answer: str, expected_answer: str) -> str:
     return f"""You are an evaluation judge for a medical RAG system.
 
         Given:
-        - Retrieved context: {context}
-        - Generated answer: {answer}
-
-        Task: Score how much the generated answer is supported by the retrieved context, from 0.0 to 1.0.
+        - Asked Question: {question}
+        - Generated answer: {pipeline_answer}
+        - Expected_answer: {expected_answer}
+        Task: Score how much the generated answer match the Expected_answer for the input question, 0 or 1
 
         Rules:
         - Be strict
-        - 1.0 = answer is fully supported by context
-        - 0.5 = answer is partially supported, contains extra info not in context
-        - 0.0 = answer is unrelated to or contradicts the context
-        - Indicate in reason if the answer is: unrelated, adds extra info, or partially supported
+        - 1.0 = answer is correct
+        - 0.0 = answer is wrong
+        - Indicate in reason if the answer is: wrong
 
         Return ONLY a JSON object, no other text:
-        {{"faithfulness_score": <0.0 to 1.0>, "reason": "<one sentence>"}}"""
+        {{"correctness_score": <0 or 1>, "reason": "<one sentence>"}}"""
 
 
 def get_context(context_text: str, k: int = CHUNKS_PER_QUESTION) -> list:
@@ -84,23 +79,23 @@ def get_answer(context_text: str, k: int = CHUNKS_PER_QUESTION, retries: int = 3
     return ""
 
 
-def get_faithfullness_scores(eval_data_path="eval_data.json"):
+def get_correctness_scores(eval_data_path="eval_data.json"):
     data = load_eval_dataset(eval_data_path)
     scores=[]
     for item in data:
-        retrieved_context = get_context(item["question"])
-        if not retrieved_context:
-            continue
-        
+        expected_answer = item["expected_answer"]
         pipeline_answer = get_answer(item["question"])
+        pipeline_answer = json.loads(pipeline_answer)["answer"]
+        
         if not pipeline_answer:
             continue
-            
-        prompt = build_faithfulness_prompt(retrieved_context[0], pipeline_answer)
+        # print(item["question"],pipeline_answer)
+        prompt = build_correctness_prompt(item["question"],pipeline_answer,expected_answer)
         score_dict = call_ollama_judge(prompt)
-        score = float(score_dict["faithfulness_score"])
+        score = float(score_dict["correctness_score"])
+        # print(f"score : {score}")
         scores.append(score)
     final_score = sum(scores)/len(scores)
-    print(f"AVG Failthfullness score is {final_score} ")
+    print(f"AVG Correctness score is {final_score} ")
 
-get_faithfullness_scores()
+get_correctness_scores()

@@ -1,3 +1,10 @@
+"""Measure retrieval quality with Precision@K and Recall@K.
+
+This script reads the evaluation dataset produced by build_eval_dataset.py,
+issues retrieval requests against the local RAG API, and reports how well the
+returned chunk IDs match the expected chunk IDs.
+"""
+
 import json
 import requests
 
