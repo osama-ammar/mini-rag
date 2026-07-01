@@ -146,6 +146,7 @@ class QdrantDBProvider(VectorDBInterface):
             RetrievedDocument(**{
                 "score": result.score,
                 "text": result.payload["text"],
+                "chunk_id": result.payload["chunk_id"],
             })
             for result in results
         ]

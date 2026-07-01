@@ -429,7 +429,7 @@
 
     window.selectProject = function(id) {
       setActiveProject(Number(id));
-      log(`Selected project ${id}`);
+      log(`Selected project "${getActiveProject()?.name || id}"`);
     };
 
     window.deleteProject = function(id) {
@@ -484,7 +484,7 @@
       project.documents = (project.documents || []).filter(doc => doc.name !== fileName);
       saveState();
       renderDocuments();
-      log(`Removed ${fileName} from project ${project.name}`);
+      log(`Removed ${fileName} from project "${project.name}"`);
     };
 
     function renderSources() {
@@ -531,8 +531,7 @@
       state.projects.unshift(project);
       setActiveProject(projectId);
       projectNameInput.value = "";
-      log(`Created project ${name}`);
-      addMessage("assistant", `Created project "${name}".`);
+      log(`Created project "${name}"`);
     });
 
     document.getElementById("uploadBtn").addEventListener("click", async () => {
@@ -576,7 +575,7 @@
           });
 
           uploadedCount += 1;
-          log(`Uploaded ${file.name} to ${project.name}`);
+          log(`Uploaded ${file.name} to "${project.name}"`);
         } catch (err) {
           log(`Upload error for ${file.name}: ${err}`);
         }
@@ -587,7 +586,7 @@
       fileInput.value = "";
       if (uploadedCount > 0) {
         setStatus("Upload complete");
-        addMessage("assistant", `Uploaded ${uploadedCount} file(s) to "${project.name}".`);
+        log(`Uploaded ${uploadedCount} file(s) to "${project.name}".`);
       } else {
         setStatus("Upload failed");
       }
@@ -621,9 +620,8 @@
           return;
         }
 
-        log(`Processed ${data.processed_files || 0} file(s)`);
+        log(`Processed ${data.processed_files || 0} file(s) and inserted ${data.inserted_chunks || 0} chunks.`);
         setStatus("Process complete");
-        addMessage("assistant", `Processed ${data.processed_files || 0} file(s) and inserted ${data.inserted_chunks || 0} chunks.`);
       } catch (err) {
         log(`Process error: ${err}`);
         setStatus("Process error");
@@ -652,9 +650,8 @@
           return;
         }
 
-        log(`Indexed ${data.inserted_items_count || 0} items`);
+        log(`Indexed ${data.inserted_items_count || 0} items successfully.`);
         setStatus("Index complete");
-        addMessage("assistant", `Indexed ${data.inserted_items_count || 0} items successfully.`);
       } catch (err) {
         log(`Index error: ${err}`);
         setStatus("Index error");
@@ -677,6 +674,7 @@
       addMessage("user", text);
       input.value = "";
       setStatus("Searching...");
+
       try {
         const searchRes = await fetch(`/api/v1/nlp/index/search/${project.id}`, {
           method: "POST",
