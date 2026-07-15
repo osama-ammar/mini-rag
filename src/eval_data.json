@@ -1,0 +1,499 @@
+[
+  {
+    "question": "The main pathophysiological disorder in restrictive cardiomyopathy is:\na.Impaired diastolic ventricular function\nb.Impaired ventricular contraction\nc.Pericardial constriction\nd.Thickened walls of both ventricles\ne.Functional tricuspid and mitral insufficiency\n",
+    "expected_chunk_ids": [
+      72321,
+      72322
+    ],
+    "expected_answer": "Impaired diastolic ventricular function",
+    "specialty": "Cardiology",
+    "complexity": "basic"
+  },
+  {
+    "question": "3. What is true about the third heart sound?\nA. It is always a pathological finding\n B. It is a low-frequency sound\n C. We hear it just before the first heart sound\n D. The loudness is not proportional to its clinical significance\n E. It is rarely heard in heart failure",
+    "expected_chunk_ids": [
+      72322,
+      72321
+    ],
+    "expected_answer": "It is a low-frequency sound",
+    "specialty": "Cardiology",
+    "complexity": "basic"
+  },
+  {
+    "question": "4. What does hemoptysis mean?\nA. Coughing up pure blood, more than 250 ml in 24 hours\nB. Vomiting blood\nC. Coughing up blood-streaked sputum\nD. Passing bloody stool\nE. Bloody expectoration",
+    "expected_chunk_ids": [
+      72324,
+      72325
+    ],
+    "expected_answer": "Coughing up blood-streaked sputum",
+    "specialty": "Cardiology",
+    "complexity": "basic"
+  },
+  {
+    "question": "5. How is orthostatic hypotension defined?\na. If a drop in systolic blood pressure is detected when the patient stands up from a supine position\nb. If a drop in both systolic and diastolic blood pressure is detected when the patient stands up from a supine position\nc. If the patient experiences syncope or dizziness when standing up from a supine position\nd. If blood pressure falls by at least 30/20 mm Hg when the patient stands up from a supine position\ne. If blood pressure falls by at least 60/30 mm Hg when the patient stands up from a supine position",
+    "expected_chunk_ids": [
+      72327,
+      72328
+    ],
+    "expected_answer": "If blood pressure falls by at least 30/20 mm Hg when the patient stands up from a supine position",
+    "specialty": "Cardiology",
+    "complexity": "basic"
+  },
+  {
+    "question": "6. The sensation of difficult breathing reported by the patient in the medical history is best described by the term:\n\na. Orthopnea\nb. Tachypnea\nc. Dyspnea\nd. Platypnea\ne. Trepopnea",
+    "expected_chunk_ids": [
+      72329,
+      72339
+    ],
+    "expected_answer": "Dyspnea",
+    "specialty": "Cardiology",
+    "complexity": "basic"
+  },
+  {
+    "question": "7. Which laboratory test can we use in clinical practice to confirm heart failure as the cause of exertional dyspnea?\na. Troponin T\nb. Troponin I\nc. Atrial natriuretic peptide (ANP)\nd. Brain (B-type) natriuretic peptide (BNP)\ne. Erythropoietin",
+    "expected_chunk_ids": [
+      72331,
+      72321
+    ],
+    "expected_answer": "Brain (B-type) natriuretic peptide (BNP)",
+    "specialty": "Cardiology",
+    "complexity": "basic"
+  },
+  {
+    "question": "8. \u201cOrganic murmur\u201d means:\na. Pathologically altered hemodynamics\nb. The cause is in another organ\nc. The heart is morphologically changed\nd. The cause is in artificial material\ne. It is not a sign of heart disease",
+    "expected_chunk_ids": [
+      72333,
+      72335
+    ],
+    "expected_answer": "The heart is morphologically changed",
+    "specialty": "Cardiology",
+    "complexity": "basic"
+  },
+  {
+    "question": "9. An accidental (incidental) murmur is:\na. A consequence of trauma (e.g., a motor vehicle accident with blunt chest injury)\nb. Randomly detected in the early phase of heart disease\nc. Most common in children\nd. Soft and most often diastolic\ne. Most often a consequence of aortic stenosis",
+    "expected_chunk_ids": [
+      72333,
+      72335
+    ],
+    "expected_answer": "Most common in children",
+    "specialty": "Cardiology",
+    "complexity": "basic"
+  },
+  {
+    "question": "10. Pulmonary embolism most often arises from a clot originating from:\na. The large veins of the legs\nb. The large veins of the arms\nc. The calf (tibial) veins\nd. The pelvic veins\ne. The clot forms in the lungs",
+    "expected_chunk_ids": [
+      72337,
+      72338
+    ],
+    "expected_answer": "The large veins of the legs",
+    "specialty": "Cardiology",
+    "complexity": "basic"
+  },
+  {
+    "question": "11. A patient suddenly loses consciousness and falls to the ground. After a few seconds, consciousness returns. Such an event is called:\na. Psychogenic coma\nb. Opisthotonus\nc. Decortication\nd. Syncope\ne. Asystole",
+    "expected_chunk_ids": [
+      72339,
+      72329
+    ],
+    "expected_answer": "Syncope",
+    "specialty": "Cardiology",
+    "complexity": "basic"
+  },
+  {
+    "question": "12. Which of the following is characteristic of hypertrophic cardiomyopathy?\na. The walls of the heart muscle are of normal thickness\nb. The disease is inherited in an autosomal dominant manner\nc. All four cardiac chambers are enlarged\nd. The only possible treatment is heart transplantation\ne. Patients never experience rhythm disturbances",
+    "expected_chunk_ids": [
+      72340,
+      72333
+    ],
+    "expected_answer": "The disease is inherited in an autosomal dominant manner",
+    "specialty": "Cardiology",
+    "complexity": "basic"
+  },
+  {
+    "question": "14. In atrial flutter, the atrial rate limit is:\na. Below 220/min\nb. Above 350/min\nc. 220\u2013350/min\nd. 120\u2013250/min\ne. 280\u2013390/min",
+    "expected_chunk_ids": [
+      72342,
+      72322
+    ],
+    "expected_answer": "220\u2013350/min",
+    "specialty": "Cardiology",
+    "complexity": "basic"
+  },
+  {
+    "question": "15. The most effective method to terminate ventricular fibrillation is:\na. Cardioversion\nb. Defibrillation\nc. Medications\nd. External cardiac massage (chest compressions)\ne. Artificial respiration",
+    "expected_chunk_ids": [
+      72344,
+      72339
+    ],
+    "expected_answer": "Defibrillation",
+    "specialty": "Cardiology",
+    "complexity": "basic"
+  },
+  {
+    "question": "16. The AV node can generate a heart rate in the range of:\na. 40\u201360\nb. 60\u2013100\nc. 20\u201340\nd. 40\u201380\ne. The AV node does not have this capability",
+    "expected_chunk_ids": [
+      72342,
+      72322
+    ],
+    "expected_answer": "40\u201360",
+    "specialty": "Cardiology",
+    "complexity": "basic"
+  },
+  {
+    "question": "17. What is the most common cause of mitral regurgitation in developed countries?\na. Mitral valve prolapse\nb. Dilatation of the mitral annulus due to left ventricular failure\nc. Ischemia of the papillary muscles\nd. Infective endocarditis\ne. Rupture of a papillary muscle head",
+    "expected_chunk_ids": [
+      72340,
+      72333
+    ],
+    "expected_answer": "Mitral valve prolapse",
+    "specialty": "Cardiology",
+    "complexity": "basic"
+  },
+  {
+    "question": "18. The most common causative agents of infective endocarditis are:\na. Gram-positive cocci\nb. Gram-negative bacilli\nc. Fungi\nd. Cardiotropic viruses\ne. Intracellular bacteria",
+    "expected_chunk_ids": [
+      72340,
+      72333
+    ],
+    "expected_answer": "Gram-positive cocci",
+    "specialty": "Cardiology",
+    "complexity": "basic"
+  },
+  {
+    "question": "19. For pain relief in myocardial infarction, we most commonly use:\na. Acetylsalicylic acid (aspirin) 100 mg\nb. Acetylsalicylic acid (aspirin) 500 mg\nc. Paracetamol 500 mg\nd. Morphine 1 mg/kg body weight\ne. Morphine 0.1 mg/kg body weight",
+    "expected_chunk_ids": [
+      72327,
+      72324
+    ],
+    "expected_answer": "Morphine 0.1 mg/kg body weight",
+    "specialty": "Cardiology",
+    "complexity": "basic"
+  },
+  {
+    "question": "20. Primary cardiac arrest means:\na. Cardiac arrest occurring in the hospital\nb. Cardiac arrest occurring in the field (outside the hospital)\nc. The cause of the arrest is intrinsic to the heart itself\nd. The cardiac arrest is secondary to another cause (e.g., pulmonary embolism, hemorrhage, tension pneumothorax)\ne. Cardiac arrest whose cause is ventricular fibrillation",
+    "expected_chunk_ids": [
+      72344,
+      72321
+    ],
+    "expected_answer": "The cause of the arrest is intrinsic to the heart itself",
+    "specialty": "Cardiology",
+    "complexity": "basic"
+  },
+  {
+    "question": "21. Kussmaul\u2019s sign is characteristic of:\na. Superior vena cava syndrome\nb. Pulmonary embolism\nc. Constrictive pericarditis\nd. Left-sided heart failure\n",
+    "expected_chunk_ids": [
+      72321,
+      72329
+    ],
+    "expected_answer": "Constrictive pericarditis",
+    "specialty": "Cardiology",
+    "complexity": "basic"
+  },
+  {
+    "question": "22. We auscultate the aortic valve in the:\na. 3rd intercostal space, right parasternal\nb. 3rd intercostal space, left parasternal\nc. 2nd intercostal space, right parasternal\nd. 4th intercostal space, left parasternal\ne. 5th intercostal space, left parasternal",
+    "expected_chunk_ids": [
+      72337,
+      72333
+    ],
+    "expected_answer": "2nd intercostal space, right parasternal",
+    "specialty": "Cardiology",
+    "complexity": "basic"
+  },
+  {
+    "question": "24. Which of the following conditions is characterized by convergent (narrow\u2010pulse\u2010pressure) blood pressure?\na. Severe aortic regurgitation\nb. Mitral regurgitation\nc. Cardiogenic shock\nd. Septic shock\ne. Anaphylactic shock",
+    "expected_chunk_ids": [
+      72321,
+      72327
+    ],
+    "expected_answer": "Cardiogenic shock",
+    "specialty": "Cardiology",
+    "complexity": "basic"
+  },
+  {
+    "question": "25. What type of heart murmurs can also be found in healthy people?\na. Quiet, mid\u2010systolic\nb. Quiet, diastolic\nc. Quiet, that become louder with exertion\nd. Quiet, systolic, that radiate to the neck\ne. A heart murmur always means disease",
+    "expected_chunk_ids": [
+      72333,
+      72335
+    ],
+    "expected_answer": "Quiet, mid\u2010systolic",
+    "specialty": "Cardiology",
+    "complexity": "basic"
+  },
+  {
+    "question": "26. What does hemoptysis mean?\na. Coughing up pure blood, more than 250 mL in 24 hours\nb. Vomiting blood\nc. Coughing up bloody sputum\nd. Passing bloody stool\ne. Bloody expectoration",
+    "expected_chunk_ids": [
+      72324,
+      72325
+    ],
+    "expected_answer": "Coughing up pure blood, more than 250 mL in 24 hours",
+    "specialty": "Cardiology",
+    "complexity": "basic"
+  },
+  {
+    "question": "27. Which investigation most easily allows us to determine the cause of acute heart failure?\na. 12-lead electrocardiogram\nb. Chest radiograph\nc. Echocardiography\nd. Chest CT scan\ne. Cardiac magnetic resonance imaging",
+    "expected_chunk_ids": [
+      72321,
+      72322
+    ],
+    "expected_answer": "Echocardiography",
+    "specialty": "Cardiology",
+    "complexity": "basic"
+  },
+  {
+    "question": "28. When do we say that the cardiac axis on an electrocardiogram is normal?\na. If it is between 30\u00b0 and 60\u00b0\nb. If it is between 0\u00b0 and 90\u00b0\nc. If it is 45\u00b0\nd. If it is between \u201330\u00b0 and 90\u00b0\ne. If it is between \u201360\u00b0 and 120\u00b0",
+    "expected_chunk_ids": [
+      72321,
+      72342
+    ],
+    "expected_answer": "If it is between \u201330\u00b0 and 90\u00b0",
+    "specialty": "Cardiology",
+    "complexity": "basic"
+  },
+  {
+    "question": "29. How is stress echocardiography performed?\na. Echocardiography using a contrast agent as stress\nb. An ultrasound examination after physical exercise\nc. An ultrasound examination before and after physical exercise\nd. An ultrasound examination during compression under the right costal margin\ne. An ultrasound examination during the Valsalva maneuver",
+    "expected_chunk_ids": [
+      72333,
+      72335
+    ],
+    "expected_answer": "An ultrasound examination before and after physical exercise",
+    "specialty": "Cardiology",
+    "complexity": "basic"
+  },
+  {
+    "question": "32. In the late period after heart transplantation, which of the following is an important factor in patient morbidity?\na. Hepatitis B virus\nb. Influenza A (H1N1) virus\nc. Cytomegalovirus\nd. JC virus\ne. Adenovirus",
+    "expected_chunk_ids": [
+      72339,
+      72331
+    ],
+    "expected_answer": "Cytomegalovirus",
+    "specialty": "Cardiology",
+    "complexity": "basic"
+  },
+  {
+    "question": "2. Type 1 diabetes is characterized by:\na) It is predominantly immune-mediated\nb) It is predominantly idiopathic\nc) At disease onset, nearly 50% of beta cells have been destroyed\nd) At disease onset, about three-quarters of beta cells have been destroyed\ne) At disease onset, practically all beta cells have been destroyed",
+    "expected_chunk_ids": [
+      72329,
+      72339
+    ],
+    "expected_answer": "It is predominantly immune-mediated",
+    "specialty": " \n \t\nEndocrinology\n",
+    "complexity": "basic"
+  },
+  {
+    "question": "3. Which of the following is true about glucocorticoid-induced osteoporosis?\na) It does not develop with glucocorticoid nasal spray use\nb) Glucocorticoids accelerate resorption but do not reduce bone formation\nc) We initiate treatment with bisphosphonates when bone mineral density is below \u20131 SD\nd) Due to increased calcium excretion, only vitamin D is added, not calcium\ne) Treatment begins only if glucocorticoids are expected to be given for more than 6 months",
+    "expected_chunk_ids": [
+      72333,
+      72335
+    ],
+    "expected_answer": "We initiate treatment with bisphosphonates when bone mineral density is below \u20131 SD",
+    "specialty": " \n \t\nEndocrinology\n",
+    "complexity": "basic"
+  },
+  {
+    "question": "4. What are the appropriate next steps for a 50-year-old patient who has been taking amiodarone for several years and presents with hypothyroidism?\na) Start treatment with L-thyroxine\nb) Start treatment with antithyroid drugs\nc) Discontinue amiodarone\nd) Do not discontinue amiodarone\ne) Start treatment with glucocorticoids",
+    "expected_chunk_ids": [
+      72339,
+      72327
+    ],
+    "expected_answer": "Start treatment with L-thyroxine",
+    "specialty": " \n         \nEndocrinology\n",
+    "complexity": "basic"
+  },
+  {
+    "question": "5. What is the most appropriate treatment for subacute thyroiditis?\na) Propylthiouracil\nb) Methimazole\nc) Radioactive iodine\nd) Methylprednisolone\ne) Amoxicillin",
+    "expected_chunk_ids": [
+      72327,
+      72324
+    ],
+    "expected_answer": "Methylprednisolone",
+    "specialty": " \n         \nEndocrinology\n",
+    "complexity": "basic"
+  },
+  {
+    "question": "6. What stimulates TSH receptors on thyroid cells?\na) Triiodothyronine\nb) TSH\nc) Stimulating antibodies against the TSH receptor\nd) hCG\n",
+    "expected_chunk_ids": [
+      72331,
+      72333
+    ],
+    "expected_answer": "Stimulating antibodies against the TSH receptor",
+    "specialty": "Endocrinology",
+    "complexity": "basic"
+  },
+  {
+    "question": "8. What do we find in hypothyroidism due to thyroid disease?\na) High TSH, normal or low T3 and T4\nb) Low TSH, high T3 and T4\nc) High TSH, high T3 and T4\nd) Low TSH, low T3 and T4\ne) Normal TSH, low T3\n",
+    "expected_chunk_ids": [
+      72333,
+      72335
+    ],
+    "expected_answer": "High TSH, normal or low T3 and T4",
+    "specialty": "Endocrinology",
+    "complexity": "basic"
+  },
+  {
+    "question": "9. What is characteristic of subacute thyroiditis?\na) Elevated ESR\nb) Markedly increased leukocytes\nc) Painful thyroid on palpation during acute phase\nd) Enlarged thyroid with hypoechoic areas on ultrasound\ne) Decreased thyroid hormones and normal TSH during acute phase",
+    "expected_chunk_ids": [
+      72333,
+      72335
+    ],
+    "expected_answer": "Elevated ESR",
+    "specialty": "Endocrinology",
+    "complexity": "basic"
+  },
+  {
+    "question": "10. Which of the following statements about thyroid hormones is correct?\na) Thyroid peroxidase (TPO) participates in the synthesis of thyroid hormones\nb) T3 is produced in greater amounts than T4 in the thyroid\nc) T4 is formed from two molecules of monoiodotyrosine\nd) The first step of thyroid hormone synthesis is the synthesis of monomers and dimers\ne) The enzyme P450 desmolase participates in thyroid hormone synthesis",
+    "expected_chunk_ids": [
+      72324,
+      72329
+    ],
+    "expected_answer": "Thyroid peroxidase (TPO) participates in the synthesis of thyroid hormones",
+    "specialty": "Endocrinology",
+    "complexity": "basic"
+  },
+  {
+    "question": "11. Which of the following statements regarding thyroid eye disease (TED) and Graves' disease are true?\na) Graves' disease and thyroid eye disease do not require treatment\nb) Patients with orbitopathy may smoke\nc) Thyroid eye disease is never treated surgically\nd) In the acute phase, immunosuppressive drugs are used\ne) Radioiodine therapy does not stop progression of orbitopathy",
+    "expected_chunk_ids": [
+      72329,
+      72333
+    ],
+    "expected_answer": "In the acute phase, immunosuppressive drugs are used",
+    "specialty": "Endocrinology",
+    "complexity": "basic"
+  },
+  {
+    "question": "12. Which lab values are typical of hyperthyroidism caused by thyroid disease?\na) Low TSH, high free T4, high free T3\nb) High TSH, normal free T4, normal free T3\nc) Low TSH, low free T4, low free T3\nd) High TSH, low free T4, low free T3\ne) High TSH, high free T4, high free T3\n",
+    "expected_chunk_ids": [],
+    "expected_answer": "Low TSH, high free T4, high free T3",
+    "specialty": "Endocrinology",
+    "complexity": "basic"
+  },
+  {
+    "question": "13. What causes Graves' disease?\na) Excess hormone production from an endocrine tumor\nb) Destruction of the endocrine gland by tumor, trauma, or infarction\nc) Autoimmune stimulation of the endocrine gland\nd) Autoimmune destruction of the endocrine gland\ne) Malformation of the olfactory lobe and adjacent CNS structures",
+    "expected_chunk_ids": [
+      72333,
+      72335
+    ],
+    "expected_answer": "Autoimmune stimulation of the endocrine gland",
+    "specialty": "Endocrinology",
+    "complexity": "basic"
+  },
+  {
+    "question": "14. Which statement about malignant thyroid tumors is correct?\na) Malignant thyroid tumors are very common\nb) The most malignant type is papillary thyroid carcinoma\nc) Papillary thyroid carcinoma is the least common\nd) Patients with anaplastic thyroid carcinoma often die within months\ne) Men are more commonly affected than women\n",
+    "expected_chunk_ids": [
+      72329,
+      72340
+    ],
+    "expected_answer": "Patients with anaplastic thyroid carcinoma often die within months",
+    "specialty": "Endocrinology",
+    "complexity": "basic"
+  },
+  {
+    "question": "16. Which statement about malignant thyroid tumors is correct?\na) Malignant thyroid tumors are very common\nb) Papillary thyroid carcinoma is the most aggressive\nc) Papillary thyroid carcinoma is the least common\nd) Patients with anaplastic thyroid carcinoma often die within months\ne) Men are more frequently affected than women",
+    "expected_chunk_ids": [
+      72329,
+      72340
+    ],
+    "expected_answer": "Patients with anaplastic thyroid carcinoma often die within months",
+    "specialty": "Endocrinology",
+    "complexity": "basic"
+  },
+  {
+    "question": "17. What procedures should be performed in a patient with a painless, growing neck mass and breathing difficulties?\na) Cervical spine X-ray\nb) Trachea X-ray\nc) Ultrasound-guided fine needle biopsy\nd) Chest CT\ne) Spirometry",
+    "expected_chunk_ids": [
+      72333,
+      72335
+    ],
+    "expected_answer": "Ultrasound-guided fine needle biopsy",
+    "specialty": "Endocrinology",
+    "complexity": "basic"
+  },
+  {
+    "question": "18. What is a typical sign of hyperthyroidism?\na) Cold, dry skin\nb) Weight loss\nc) Bradycardia\nd) Constipation\ne) Cold intolerance",
+    "expected_chunk_ids": [
+      72329,
+      72333
+    ],
+    "expected_answer": "Weight loss",
+    "specialty": "Endocrinology",
+    "complexity": "basic"
+  },
+  {
+    "question": "19. Which statement about thyroid hormones is correct?\na) Most thyroid hormones circulate unbound in the blood\nb) T4 is more active than T3 in tissues\nc) Bound hormones are the only biologically active form\nd) Thyroid hormones are essential for normal brain development\ne) Monoiodotyrosine is more active than T3",
+    "expected_chunk_ids": [
+      72339,
+      72327
+    ],
+    "expected_answer": "Thyroid hormones are essential for normal brain development",
+    "specialty": "Endocrinology",
+    "complexity": "basic"
+  },
+  {
+    "question": "20. What is the treatment of choice for toxic nodular goiter (autonomous thyroid tissue)?\na) L-thyroxine\nb) Radioactive iodine (I-131)\nc) High-dose corticosteroids\nd) Surgery is never an option\ne) Beta blockers alone\n",
+    "expected_chunk_ids": [
+      72327,
+      72324
+    ],
+    "expected_answer": " Radioactive iodine (I-131)",
+    "specialty": "Endocrinology",
+    "complexity": "basic"
+  },
+  {
+    "question": "21. What is typical of hypothyroid crisis (myxedema coma)?\na) It is commonly encountered in clinical practice\nb) Mortality is low\nc) Treatment begins with high-dose intravenous L-thyroxine\nd) Diagnosis is always clinically obvious\ne) No glucocorticoids are needed",
+    "expected_chunk_ids": [
+      72324,
+      72327
+    ],
+    "expected_answer": "Treatment begins with high-dose intravenous L-thyroxine",
+    "specialty": "Endocrinology",
+    "complexity": "basic"
+  },
+  {
+    "question": "22. Which symptom is typical in hyperthyroid crisis (thyrotoxic storm)?\na) Hypothermia\nb) Constipation\nc) Hyperthermia\nd) Muscle weakness\ne) Bradycardia",
+    "expected_chunk_ids": [
+      72329,
+      72339
+    ],
+    "expected_answer": "Hyperthermia",
+    "specialty": "Endocrinology",
+    "complexity": "basic"
+  },
+  {
+    "question": "23. What is the approximate mortality rate in untreated hyperthyroid crisis?\na) Below 5%\nb) Between 20% and 50%\nc) 0% with modern treatment\nd) Between 5% and 10%\ne) Above 80%",
+    "expected_chunk_ids": [
+      72325,
+      72333
+    ],
+    "expected_answer": "Between 20% and 50%",
+    "specialty": "Endocrinology",
+    "complexity": "basic"
+  },
+  {
+    "question": "24. What applies to treatment with radioactive iodine (I-131)?\na) Only gamma rays are used\nb) Beta rays cause cellular necrosis\nc) Treatment is unsafe\nd) It is contraindicated in all elderly patients\ne) It is preferred in pregnant women",
+    "expected_chunk_ids": [
+      72325,
+      72099
+    ],
+    "expected_answer": " Beta rays cause cellular necrosis",
+    "specialty": "Endocrinology",
+    "complexity": "basic"
+  },
+  {
+    "question": "25. What is typical for autonomous thyroid tissue?\na) It is under normal regulatory control\nb) It results from rapid thyroid cell turnover\nc) It is more common in iodine-rich regions\nd) It results from mutations in the TSH receptor or G-protein\ne) It is suppressed by high iodine intake\n",
+    "expected_chunk_ids": [
+      72340,
+      72333
+    ],
+    "expected_answer": "It results from mutations in the TSH receptor or G-protein",
+    "specialty": "Endocrinology",
+    "complexity": "basic"
+  },
+  {
+    "question": "26. What should be the next step for a patient on long-term amiodarone who develops hypothyroidism?\na) Stop amiodarone immediately\nb) Start methimazole\nc) Start glucocorticoids\nd) Begin treatment with L-thyroxine\ne) Monitor without intervention\n",
+    "expected_chunk_ids": [
+      72325,
+      72333
+    ],
+    "expected_answer": "Begin treatment with L-thyroxine",
+    "specialty": "Endocrinology",
+    "complexity": "basic"
+  }
+]
